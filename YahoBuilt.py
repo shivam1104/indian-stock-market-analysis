@@ -46,8 +46,8 @@ def getHistoricPricing(sym, renewRequired):
         symbolNSE += ".NS"
         symbolBSE += ".BO"
     stockPath = "Files//Rough//" + getCSVName(sym, renewRequired)
-    print("Printing Name")
-    print(stockPath)
+    #print("Printing Name")
+    #print(stockPath)
     if os.path.exists(stockPath):
         print("Data present, fetching data from ", stockPath," for ", sym)
         hist = getFileData(stockPath)
@@ -57,7 +57,7 @@ def getHistoricPricing(sym, renewRequired):
         if len(hist) == 0:
             hist = getYahooFinanceData(symbolBSE,"max")
         columnNames = hist.columns
-        print(columnNames)
+        #print(columnNames)
         hist.columns = [sym+"_"+columnNames[i] for i in range(len(columnNames))]
         hist.to_csv(stockPath)
     return hist
