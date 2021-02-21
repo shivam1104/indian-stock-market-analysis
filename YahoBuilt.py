@@ -58,18 +58,18 @@ def getHistoricPricing(sym, renewRequired):
             hist = getYahooFinanceData(symbolBSE,"max")
         columnNames = hist.columns
         #print(columnNames)
-        hist.columns = [sym+"_"+columnNames[i] for i in range(len(columnNames))]
+        hist.columns = [columnNames[i] for i in range(len(columnNames))]
         hist.to_csv(stockPath)
     return hist
 
 def autoRefresh(curPortfolioSym, oldPortfolioSym, mySym):
     hist = getHistoricPricing("^NSEI", True)[["^NSEI_Close"]]
     for symbol in curPortfolioSym:
-        hist = hist.join(getHistoricPricing(symbol, True)[[symbol+"_Close"]])
+        hist = hist.join(getHistoricPricing(symbol, True)[["Close"]])
     for symbol in oldPortfolioSym:
-        hist = hist.join(getHistoricPricing(symbol, False)[[symbol+"_Close"]])
+        hist = hist.join(getHistoricPricing(symbol, False)[["Close"]])
     for symbol in mySym:
-        hist = hist.join(getHistoricPricing(symbol, True)[[symbol+"_Close"]])
+        hist = hist.join(getHistoricPricing(symbol, True)[["Close"]])
     hist = hist.ffill(axis = 0)
     hist = hist.bfill(axis = 0)
     return hist
