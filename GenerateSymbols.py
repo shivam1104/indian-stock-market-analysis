@@ -1,10 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 import pandas as pd
 import numpy as np
 from nsetools import Nse
 from NSEDownload import stocks
 from nsepython import *
 import PYTopLosersTopGainersEquity as ab
+
 
 def getSymbols():
     today = date.today()
@@ -22,7 +23,11 @@ def getSymbols():
 
     listOptions = OptionLot.keys()
     TG = ab.getGainValue()
+    print("TG:- ")
+    print(TG)
     TL = ab.getLostValue()
+    print("TL:- ")
+    print(TL)
     data =pd.DataFrame(nse_events())
 
     data['HasOption'] = -1
@@ -48,9 +53,13 @@ def getSymbols():
             TG.at[i,'HasOption'] = 0
 
     symbols = []
-    symbols = TL.symbol.tolist()
-    symbols+= TG.symbol.tolist()
-    symbols+= data.symbol.tolist()
+    if (len(TL)):
+        symbols = TL.symbol.tolist()
+    if (len(TG)):
+        symbols+= TG.symbol.tolist()
+    if (len(data)):
+        symbols+= data.symbol.tolist()
+    data.to_csv("Files/UpComingResults"+str(today)+".csv")
     print("List Of Stocks to Analyse Today :- ")
     print(symbols)
     return(symbols)
