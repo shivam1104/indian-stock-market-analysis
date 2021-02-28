@@ -34,8 +34,8 @@ for symbol in symbols:
 	#print(Master_All)
 	Master_All['Next_Open'] = Master_All['Open'].shift(periods=-1)
 	Master_All['Next_High'] = Master_All['High'].shift(periods=-1)
-	del Master_All['Open']
-	del Master_All['High']
+	#del Master_All['Open']
+	#del Master_All['High']
 	#print(Master_All)
 
 	Master_Open = Master_All.copy()
